@@ -55,5 +55,58 @@ select * from course where crs_no=102
 * break large RA into smaller subexpressions
 * similar to SQL's As
 
+##### ρ[s] (Student)
+* `select s.* from Student s`
+
+##### ρ[fn, ln] (π[firstName, lastName] (Students))
+* `select firstname as fn, lastname as ln from student`
+
+##### ρ[s(sno, fn, ln,s)] (Student)
+```sql
+SELECT s. std_no AS sno, s.firstname AS fn, s. lastname AS ln, s.sex AS s
+FROM Student AS s
+```
 
 
+## ×
+* a cartesian product followed by a proper selection is a JOIN
+
+##### π[lastname, title, result] σ[student.s_id=exam.s_id ∧ course.c_id=exam._c_id] (Student × exam × Course)
+
+```sql
+SELECT lastname, title, result
+FROM Student s, Exam e, Course c
+WHERE e.s_id=s.s_id AND e.c_id=c.c_id
+```
+
+
+##  ⋈ [θ]
+* creates a new relation by combining related tuples from different sources (θ is a bool)
+
+##### π[lastname, title, result] (Student⋈[std_no=student] exam⋈[course=crs_no] Course) 
+```sql
+SELECT lastname, title, result
+FROM Student JOIN exam ON std_no=student
+JOIN Course ON course=crs_no
+```
+* equivelant to:
+```sql
+SELECT lastname, title, result
+FROM Student, exam, Course
+WHERE std_no=student AND course=crs_no
+-- π[lastname, title, result] σ[std_no=student ∧ course=crs_no] (Student × exam × Course)
+```
+
+## ⋈
+* natural join
+
+##### π[lastname, title, result] (Student ⋈ (ρs(std_no<- student, crs.no <- course) (exam) ⋈ Course)
+* equivelant to
+##### π[lastname, title, result] (σ[student.std_no=exam.student ∧ course.crs.no=exam. course] (Student × exam × Course) )
+
+
+## γ
+* aggregation
+<img src="imgs/aggregation1.png">
+<img src="imgs/aggregation2.png">
+<img src="imgs/aggregation3.png">
