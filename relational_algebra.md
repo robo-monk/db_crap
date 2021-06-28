@@ -69,6 +69,8 @@ FROM Student AS s
 
 
 ## ×
+* cross product
+* binary operator
 * a cartesian product followed by a proper selection is a JOIN
 
 ##### π[lastname, title, result] σ[student.s_id=exam.s_id ∧ course.c_id=exam._c_id] (Student × exam × Course)
